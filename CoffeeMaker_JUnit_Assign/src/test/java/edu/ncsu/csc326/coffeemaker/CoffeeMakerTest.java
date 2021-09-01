@@ -96,11 +96,11 @@ public class CoffeeMakerTest {
 	
 	
 	/**
-	 * ID: AI1
 	 * Given a coffee maker with the default inventory
 	 * When we add inventory with well-formed quantities
 	 * Then we do not get an exception trying to read the inventory quantities.
-	 * 
+	 *
+	 * @ID: AI1
 	 * @throws InventoryException  if there was an error parsing the quantity
 	 * 		to a positive integer.
 	 */
@@ -110,24 +110,131 @@ public class CoffeeMakerTest {
 	}
 	
 	/**
-	 * ID: AI2
 	 * Given a coffee maker with the default inventory
 	 * When we add inventory with malformed quantities (i.e., a negative 
 	 * quantity and a non-numeric string)
 	 * Then we get an inventory exception
-	 * 
+	 * @ID: AI2CO1
 	 * @throws InventoryException  if there was an error parsing the quantity
 	 * 		to a positive integer.
 	 */
 	@Test(expected = InventoryException.class)
-	public void testAddInventoryException() throws InventoryException {
-		coffeeMaker.addInventory("4", "-1", "asdf", "3");
+	public void testAddNonIntCoffeeException() throws InventoryException {
+		coffeeMaker.addInventory("rt", "rbh", "asdf", "ebr");
 	}
 
 	/**
-	 * ID: AI3
+	 * Given a coffee maker with the default inventory
+	 * When we add inventory with malformed quantities (i.e., a negative
+	 * quantity and a non-numeric string)
+	 * Then we get an inventory exception
+	 *
+	 * @ID: AI2CO2
+	 * @throws InventoryException  if there was an error parsing the quantity
+	 * 		to a positive integer.
+	 */
+	@Test(expected = InventoryException.class)
+	public void testAddNonPositiveCoffeeException() throws InventoryException {
+		coffeeMaker.addInventory("-2", "rbh", "asdf", "ebr");
+	}
+
+	/**
+	 * Given a coffee maker with the default inventory
+	 * When we add inventory with malformed quantities (i.e., a negative
+	 * quantity and a non-numeric string)
+	 * Then we get an inventory exception
+	 *
+	 * @ID: AI2M1
+	 * @throws InventoryException  if there was an error parsing the quantity
+	 * 		to a positive integer.
+	 */
+	@Test(expected = InventoryException.class)
+	public void testAddNonIntMilkException() throws InventoryException {
+		coffeeMaker.addInventory("1","e","-23","-4");
+	}
+
+	/**
+	 * Given a coffee maker with the default inventory
+	 * When we add inventory with malformed quantities (i.e., a negative
+	 * quantity and a non-numeric string)
+	 * Then we get an inventory exception
+	 *
+	 * @ID: AI2M2
+	 * @throws InventoryException  if there was an error parsing the quantity
+	 * 		to a positive integer.
+	 */
+	@Test(expected = InventoryException.class)
+	public void testAddNonPositiveMilkException() throws InventoryException {
+		coffeeMaker.addInventory("1","-1","-23","-4");
+	}
+
+	/**
+	 * Given a coffee maker with the default inventory
+	 * When we add inventory with malformed quantities (i.e., a negative
+	 * quantity and a non-numeric string)
+	 * Then we get an inventory exception
+	 *
+	 * @ID: AI2S1
+	 * @throws InventoryException  if there was an error parsing the quantity
+	 * 		to a positive integer.
+	 */
+	@Test(expected = InventoryException.class)
+	public void testAddNonIntSugarException() throws InventoryException {
+		coffeeMaker.addInventory("1","3","vr","-4");
+	}
+
+	/**
+	 * Given a coffee maker with the default inventory
+	 * When we add inventory with malformed quantities (i.e., a negative
+	 * quantity and a non-numeric string)
+	 * Then we get an inventory exception
+	 *
+	 * @ID: AI2S2
+	 * @throws InventoryException  if there was an error parsing the quantity
+	 * 		to a positive integer.
+	 */
+	@Test(expected = InventoryException.class)
+	public void testAddNonPositiveSugarException() throws InventoryException {
+		coffeeMaker.addInventory("1","3","-43","-4");
+	}
+
+	/**
+	 * Given a coffee maker with the default inventory
+	 * When we add inventory with malformed quantities (i.e., a negative
+	 * quantity and a non-numeric string)
+	 * Then we get an inventory exception
+	 *
+	 * @ID: AI2C1
+	 * @throws InventoryException  if there was an error parsing the quantity
+	 * 		to a positive integer.
+	 */
+	@Test(expected = InventoryException.class)
+	public void testAddNonIntChocoException() throws InventoryException {
+		//In addSugar there is a bug that accept negative and throw error at positive int.
+		//So to prevent error from sugar bug, sugar input will be negative.
+		coffeeMaker.addInventory("1","5","-3","eg");
+	}
+
+	/**
+	 * Given a coffee maker with the default inventory
+	 * When we add inventory with malformed quantities (i.e., a negative
+	 * quantity and a non-numeric string)
+	 * Then we get an inventory exception
+	 *
+	 * @ID: AI2C2
+	 * @throws InventoryException  if there was an error parsing the quantity
+	 * 		to a positive integer.
+	 */
+	@Test(expected = InventoryException.class)
+	public void testAddNonPositiveChocoException() throws InventoryException {
+		coffeeMaker.addInventory("1","5","3","-1");
+	}
+
+	/**
 	 * When add inventory ingredients should increase
 	 * according to the amount add.
+	 *
+	 * @ID: AI3
 	 */
 	@Test
 	public void testAddInventoryCorrectness() throws InventoryException {
@@ -135,9 +242,10 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * ID: AR1
 	 * When add a new recipe to the recipe book successfully then
 	 * it should return true
+	 *
+	 * @ID: AR1
 	 */
 	@Test
 	public void testAddRecipe(){
@@ -145,10 +253,11 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * ID: AR2
 	 * When the recipe book is full,
 	 * delete a recipe to add a new one
 	 * should be possible.
+	 *
+	 * @ID: AR2
 	 */
 	@Test
 	public void testReAddRecipe() {
@@ -161,9 +270,10 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * ID: AR3
 	 * When add a non positive integer to the recipe
 	 * the code will not accept.
+	 *
+	 * @ID: AR3
 	 * @throws RecipeException
 	 */
 	@Test(expected = RecipeException.class)
@@ -175,9 +285,10 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * ID: AR4
 	 * When a name of the recipe already exist
 	 * return false
+	 *
+	 * @ID: AR4
 	 */
 	@Test
 	public void testDuplicateName() {
@@ -188,10 +299,11 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * ID: DR1
 	 * When deleting recipe it should return the name
 	 * of the successfully deleted recipe
 	 * and null if recipe cannot be deleted.
+	 *
+	 * @ID: DR1
 	 */
 	@Test(expected = ArrayIndexOutOfBoundsException.class)
 	public void testDeleteRecipe() {
@@ -204,9 +316,10 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * ID: DR2
 	 * When deleting a non existing recipe
 	 * should return null
+	 *
+	 * @ID: DR2
 	 */
 	@Test
 	public void testNonExistingDelete() {
@@ -217,10 +330,11 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * ID: ER1
 	 * When successfully edited a recipe
 	 * it should return name of said recipe and null
 	 * if it cannot be edit.
+	 *
+	 * @ID: ER1
 	 */
 	@Test
 	public void testEditRecipe() {
@@ -232,11 +346,12 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * ID: MC1
 	 * Given a coffee maker with one valid recipe
 	 * When we make coffee, selecting the valid recipe and paying more than 
 	 * 		the coffee costs
 	 * Then we get the correct change back.
+	 *
+	 * @ID: MC1
 	 */
 	@Test
 	public void testMakeCoffee() {
@@ -245,9 +360,10 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * ID: MC2
 	 * When customer pay less than the total price
 	 * return the money back to the customer.
+	 *
+	 * @ID: MC2
 	 */
 	@Test
 	public void testNotEnoughMoney() {
@@ -256,9 +372,10 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * ID: MC3
 	 * When amount paid is negative.
 	 * Coffee should not be made.
+	 *
+	 * @ID: MC3
 	 */
 	@Test
 	public void testNegativeMoney() {
@@ -267,9 +384,10 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * ID: MC4
 	 * When customer paid equal to the beverage price.
 	 * There should be no change.
+	 *
+	 * @ID: MC4
 	 */
 	@Test
 	public void testNoChange() {
@@ -278,25 +396,26 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * ID: MC5
 	 * When making coffee more than the available ingredients
 	 * it should return the money back to the customer and
 	 * ingredients should decrease.
+	 *
+	 * @ID: MC5
 	 * @throws RecipeException
 	 */
 	@Test
 	public void testMakeCoffeeInventory() throws RecipeException {
 		Recipe r = new Recipe();
 		r.setName("www");
-		r.setAmtChocolate("7");
-		r.setAmtCoffee("7");
-		r.setAmtMilk("7");
-		r.setAmtSugar("7");
+		r.setAmtChocolate("20");
+		r.setAmtCoffee("20");
+		r.setAmtMilk("70");
+		r.setAmtSugar("70");
 		r.setPrice("12");
 
 		coffeeMaker.addRecipe(r);
-		coffeeMaker.makeCoffee(0,12);
-		coffeeMaker.makeCoffee(0,12);
+//		coffeeMaker.makeCoffee(0,12);
+//		coffeeMaker.makeCoffee(0,12);
 		assertEquals(12, coffeeMaker.makeCoffee(0, 12));
 		StringBuffer buf = new StringBuffer();
 		buf.append("Coffee: ");
@@ -313,6 +432,17 @@ public class CoffeeMakerTest {
 		buf.append("\n");
 		assertEquals(buf.toString(), coffeeMaker.checkInventory());
 
+	}
+
+	/**
+	 * When chosen recipe is null
+	 * return the money to the customer.
+	 *
+	 * @ID: MC6
+	 */
+	@Test
+	public void testNullRecipe() {
+		assertEquals(12, coffeeMaker.makeCoffee(1,12));
 	}
 
 }
