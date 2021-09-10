@@ -25,6 +25,15 @@ import edu.ncsu.csc326.coffeemaker.exceptions.InventoryException;
 import edu.ncsu.csc326.coffeemaker.exceptions.RecipeException;
 
 import java.util.Arrays;
+import java.util.List;
+
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import static org.mockito.Mockito.*;
+
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
 
@@ -33,8 +42,16 @@ import static org.junit.Assert.*;
  * 
  * @author Sarah Heckman
  */
+@RunWith(MockitoJUnitRunner.class)
 public class CoffeeMakerTest {
-	
+
+//	@Mock
+//	List<String> list;
+	@Mock
+	RecipeBook recipeBook;
+
+	private CoffeeMaker cfWithConstruct;
+
 	/**
 	 * The object under test.
 	 */
@@ -55,8 +72,14 @@ public class CoffeeMakerTest {
 	 */
 	@Before
 	public void setUp() throws RecipeException {
+
+		//MockitoAnnotations.initMocks(this);
+
 		coffeeMaker = new CoffeeMaker();
-		
+
+		recipeBook = Mockito.mock(RecipeBook.class);
+		cfWithConstruct = new CoffeeMaker(recipeBook, new Inventory());
+
 		//Set up for r1
 		recipe1 = new Recipe();
 		recipe1.setName("Coffee");
@@ -94,7 +117,75 @@ public class CoffeeMakerTest {
 		recipe4.setPrice("65");
 	}
 	
-	
+//	@Test
+//	public void testFakeGet(){
+//		assertNotNull(list);
+//		System.out.println(list.get(0));
+//		when(list.get(0)).thenReturn("zero");
+//		System.out.println(list);
+//		System.out.println(list.get(0));
+//		assertEquals("zero", list.get(0));
+////		verify(list).get(0);
+//	}
+
+
+	/**
+	 * Use mockito to test a successful purchase
+	 * from make coffee
+	 *
+	 * @ID FP1
+	 */
+	@Test
+	public void testFakePurchase() {
+		assertNotNull(recipeBook);
+//		Recipe re = Mockito.mock(Recipe.class);
+//		when(recipeBook.getRecipes()).thenReturn(new Recipe[]{re});
+//		assertEquals(52, cfWithConstruct.makeCoffee(0, 52));
+//		verify(re, times(2)).getAmtMilk();
+		when(recipeBook.getRecipes()).thenReturn(new Recipe[]{recipe1});
+		assertEquals(2, cfWithConstruct.makeCoffee(0, 52));
+	}
+
+	/**
+	 * Use mockito to test not enough money purchase
+	 * from makecoffee
+	 *
+	 * @ID FP2
+	 */
+	@Test
+	public void testMockInvalidCashPurchase() {
+		when(recipeBook.getRecipes()).thenReturn(new Recipe[]{recipe1});
+		assertEquals(22, cfWithConstruct.makeCoffee(0, 22));
+		assertEquals(0, cfWithConstruct.makeCoffee(0, 50));
+	}
+
+	/**
+	 * Check inventory with mockito
+	 * after a purchase.
+	 *
+	 * @ID FP3
+	 */
+	@Test
+	public void testMockInventoryCheck() {
+//		Inventory iv = new Inventory()
+//		CoffeeMaker cfWithConstruct = new CoffeeMaker(recipeBook, iv);
+		when(recipeBook.getRecipes()).thenReturn(new Recipe[]{recipe1});
+		cfWithConstruct.makeCoffee(0, 80);
+		assertEquals("Coffee: 12\nMilk: 14\nSugar: 14\nChocolate: 15\n", cfWithConstruct.checkInventory());
+	}
+
+	/**
+	 * Use mockito to check for return money
+	 * when there is not enough ingredients.
+	 *
+	 * @ID FP4
+	 */
+	@Test
+	public void testMockNotEnoughIngredients() {
+		when(recipeBook.getRecipes()).thenReturn(new Recipe[]{recipe2});
+		assertEquals(100, cfWithConstruct.makeCoffee(0,100));
+	}
+
 	/**
 	 * Given a coffee maker with the default inventory
 	 * When we add inventory with well-formed quantities

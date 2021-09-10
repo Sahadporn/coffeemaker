@@ -24,6 +24,6 @@
 | UC3 | Delete Recipe | DR1<br>DR2 | Pass<br>Fail |
 | UC4 | Edit Recipe | ER1 | Fail |
 | UC5 | Add Inventory | AI1<br>AI2CO1<br>AI2CO2<br>AI2M1<br>AI2M2<br>AI2S1<br>AI2S2<br>AI2C1<br>AI2C2<br>AI3 | Pass<br>Pass<br>Pass<br>Pass<br>Pass<br>Pass<br>Pass<br>Pass<br>Pass<br>Fail |
-| UC7 | Purchase Beverage | MC1<br>MC2<br>MC3<br>MC4<br>MC5<br>MC6 | Pass<br>Pass<br>Pass<br>Pass<br>Fail<br>Pass |
+| UC7 | Purchase Beverage | FP1<br>FP2<br>FP3<br>FP4<br>MC1<br>MC2<br>MC3<br>MC4<br>MC5<br>MC6 | Pass<br>Pass<br>Fail<br>Pass<br>Pass<br>Pass<br>Pass<br>Pass<br>Fail<br>Pass |
 
 
