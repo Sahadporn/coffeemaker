@@ -85,7 +85,7 @@ public class CoffeeMaker {
      * @param amtChocolate
      * @return boolean
      */
-    public synchronized void addInventory(String amtCoffee, String amtMilk, String amtSugar, String amtChocolate) throws InventoryException {
+    public void addInventory(String amtCoffee, String amtMilk, String amtSugar, String amtChocolate) throws InventoryException {
 	    inventory.addCoffee(amtCoffee);
 	    inventory.addMilk(amtMilk);
 	    inventory.addSugar(amtSugar);
@@ -96,18 +96,18 @@ public class CoffeeMaker {
      * Returns the inventory of the coffee maker
      * @return Inventory
      */
-    public synchronized String checkInventory() {
+    public String checkInventory() {
         return inventory.toString();
     }
     
     /**
      * Returns the change of a user's beverage purchase, or
      * the user's money if the beverage cannot be made
-     * @param r
+     * @param recipeToPurchase
      * @param amtPaid
      * @return int
      */
-    public synchronized int makeCoffee(int recipeToPurchase, int amtPaid) {
+    public int makeCoffee(int recipeToPurchase, int amtPaid) {
         int change = 0;
         
         if (getRecipes()[recipeToPurchase] == null) {
@@ -129,7 +129,7 @@ public class CoffeeMaker {
 	 * Returns the list of Recipes in the RecipeBook.
 	 * @return Recipe []
 	 */
-	public synchronized Recipe[] getRecipes() {
+	public Recipe[] getRecipes() {
 		return recipeBook.getRecipes();
 	}
 }
