@@ -36,6 +36,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
+import io.cucumber.java.en.*;
 
 /**
  * Unit tests for CoffeeMaker class.
@@ -50,7 +51,13 @@ public class CoffeeMakerTest {
 	@Mock
 	RecipeBook recipeBook;
 
+	private Inventory coffeeInventory;
+
 	private CoffeeMaker cfWithConstruct;
+
+	private int moneyPaid;
+
+	private static final double TOL = 1.0E-4;
 
 	/**
 	 * The object under test.
@@ -78,7 +85,8 @@ public class CoffeeMakerTest {
 		coffeeMaker = new CoffeeMaker();
 
 		recipeBook = Mockito.mock(RecipeBook.class);
-		cfWithConstruct = new CoffeeMaker(recipeBook, new Inventory());
+		coffeeInventory = new Inventory();
+		cfWithConstruct = new CoffeeMaker(recipeBook, coffeeInventory);
 
 		//Set up for r1
 		recipe1 = new Recipe();
@@ -116,7 +124,47 @@ public class CoffeeMakerTest {
 		recipe4.setAmtSugar("1");
 		recipe4.setPrice("65");
 	}
-	
+
+	/**
+	 * Use cucumber
+	 */
+	@Given("I purchase a beverage")
+	public void iPurchaseABeverage() throws RecipeException {
+//		this.coffeeMaker = new CoffeeMaker();
+		Recipe newRecipe = new Recipe();
+		newRecipe.setName("Beverage magic");
+		newRecipe.setAmtChocolate("10");
+		newRecipe.setAmtCoffee("10");
+		newRecipe.setAmtMilk("10");
+		newRecipe.setAmtSugar("10");
+		newRecipe.setPrice("50");
+		moneyPaid = 0;
+		recipeBook = new RecipeBook();
+		coffeeInventory = new Inventory();
+		recipeBook.addRecipe(newRecipe);
+		coffeeMaker = new CoffeeMaker(recipeBook, coffeeInventory);
+//		this.coffeeMaker.addRecipe(newRecipe);
+	}
+
+	@When("I pay {int}")
+	public void iPay(Integer moneyPaid) {
+		this.moneyPaid = moneyPaid;
+	}
+
+	@When("There are not enough ingredients")
+	public void thereAreNotEnoughIngredients() {
+		coffeeInventory.setChocolate(0);
+		coffeeInventory.setCoffee(0);
+		coffeeInventory.setMilk(0);
+		coffeeInventory.setSugar(0);
+	}
+
+	@Then("I get {int} change")
+	public void iGetChange(Integer moneyChange) {
+		assertEquals(moneyChange, coffeeMaker.makeCoffee(0, this.moneyPaid), TOL);
+	}
+
+
 //	@Test
 //	public void testFakeGet(){
 //		assertNotNull(list);
