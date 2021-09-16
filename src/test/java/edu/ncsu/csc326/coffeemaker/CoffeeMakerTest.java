@@ -18,6 +18,7 @@
  */
 package edu.ncsu.csc326.coffeemaker;
 
+import io.cucumber.junit.Cucumber;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -126,11 +127,12 @@ public class CoffeeMakerTest {
 	}
 
 	/**
-	 * Use cucumber
+	 * Initialize new recipe, recipe book, and inventory to test with cucumber.
+	 * @throws RecipeException if there was an error parsing the ingredient
+	 * amount when setting up the recipe.
 	 */
-	@Given("I purchase a beverage")
-	public void iPurchaseABeverage() throws RecipeException {
-//		this.coffeeMaker = new CoffeeMaker();
+	@io.cucumber.java.Before
+	public void beforeSecnario() throws RecipeException {
 		Recipe newRecipe = new Recipe();
 		newRecipe.setName("Beverage magic");
 		newRecipe.setAmtChocolate("10");
@@ -142,15 +144,31 @@ public class CoffeeMakerTest {
 		recipeBook = new RecipeBook();
 		coffeeInventory = new Inventory();
 		recipeBook.addRecipe(newRecipe);
+	}
+
+	/**
+	 * Use cucumber to test initialization of new coffeemaker
+	 */
+	@Given("I purchase a beverage")
+	public void iPurchaseABeverage() throws RecipeException {
+//		this.coffeeMaker = new CoffeeMaker();
+
 		coffeeMaker = new CoffeeMaker(recipeBook, coffeeInventory);
 //		this.coffeeMaker.addRecipe(newRecipe);
 	}
 
+	/**
+	 * Use cucumber to set the money customer paid each time.
+	 * @param moneyPaid money that customer pays for beverage.
+	 */
 	@When("I pay {int}")
 	public void iPay(Integer moneyPaid) {
 		this.moneyPaid = moneyPaid;
 	}
 
+	/**
+	 * Use cucumber to set everything in the inventory to 0.
+	 */
 	@When("There are not enough ingredients")
 	public void thereAreNotEnoughIngredients() {
 		coffeeInventory.setChocolate(0);
@@ -159,6 +177,10 @@ public class CoffeeMakerTest {
 		coffeeInventory.setSugar(0);
 	}
 
+	/**
+	 * Use cucumber to test change given back to customer with each purchase.
+	 * @param moneyChange change given back to customer.
+	 */
 	@Then("I get {int} change")
 	public void iGetChange(Integer moneyChange) {
 		assertEquals(moneyChange, coffeeMaker.makeCoffee(0, this.moneyPaid), TOL);
